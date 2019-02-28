@@ -176,7 +176,7 @@ void parseClientRequest(const char *message, int *pid, int *priority, char *file
     pidStart = tmp;
 
     for (i = 0; tmp[i]; i++) {
-        if (tmp[i] == '|') {
+        if (tmp[i] == '\t') {
             if (count == 0) {
                 tmp[i] = '\0';
                 priorityStart = tmp + i + 1;
@@ -192,5 +192,5 @@ void parseClientRequest(const char *message, int *pid, int *priority, char *file
     *pid = atoi(pidStart);
     *priority = atoi(priorityStart);
     memcpy(filename, fileStart, strlen(fileStart));
-    printf("%d %s %s", *pid, priorityStart, filename);
+//    printf("%d %s %s", *pid, priorityStart, filename);
 }
