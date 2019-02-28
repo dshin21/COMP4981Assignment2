@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(argv[1], "server") == 0) {
         return srvr();
-    } else if (argv[1], "client" == 0) {
+    } else if (strcmp(argv[1], "client") == 0) {
         if (argc != 3) return cli_guide();
         entry_client(argv);
     }
