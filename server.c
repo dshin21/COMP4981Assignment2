@@ -53,6 +53,7 @@ int server_entry() {
 
         // Fork and serve if it is the child
         if (!fork()) {
+            printf("%s", c_filename);
             c_ptr_file = fopen(c_filename, "r");
 
             if (c_ptr_file == NULL) {
