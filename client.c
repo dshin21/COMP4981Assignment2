@@ -21,7 +21,7 @@ int client(const int server_qid, const int client_priority, const char *client_f
         perror("Could not start thread");
         return 1;
     }
-    client_send_info(client_file_name, &p, &mBuffer);
+    client_send_info(client_file_name, p, mBuffer);
 
     // If the message is not full that means it is the last one
     while (running) {
