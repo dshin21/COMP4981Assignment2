@@ -166,6 +166,7 @@ int acceptClients(int *pPid, int *pPriority, char *filename) {
 
 void parseClientRequest(const char *message, int *pid, int *priority, char *filename) {
     int i;
+    int count = 0;
     char tmp[MSGSIZE];
     char *fileStart = NULL;
     char *pidStart = NULL;
@@ -175,14 +176,17 @@ void parseClientRequest(const char *message, int *pid, int *priority, char *file
     pidStart = tmp;
 
     for (i = 0; tmp[i]; i++) {
-        if (tmp[i] == '/') {
-            tmp[i] = '\0';
-            priorityStart = tmp + i + 1;
-        }
-
-        if (tmp[i] == '\t') {
-            tmp[i] = '\0';
-            fileStart = tmp + i + 1;
+        if (tmp[i] == '|') {
+            if (count == 0) {
+                tmp[i] = '\0';
+                priorityStart = tmp + i + 1;
+                count++;
+            }
+            if (count == 1) {
+                tmp[i] = '\0';
+                fileStart = tmp + i + 1;
+                count++;
+            }
         }
     }
     *pid = atoi(pidStart);
