@@ -16,7 +16,7 @@ struct msgbuf {
     int mlen;   // number of octets
 } msg;
 
-int open_queue(const key_t keyval);
+int queue_open(const key_t keyval);
 
 int send_message(const int msg_qid, struct msgbuf *qbuf);
 

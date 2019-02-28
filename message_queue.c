@@ -10,7 +10,7 @@
  * @return: T: msg Q identifier > 0
  *          F: -1 && errno set
  */
-int open_queue(const key_t keyval) {
+int queue_open(const key_t keyval) {
     int qid; // msg Q id
     qid = msgget(keyval, IPC_CREAT | 0660);
     return qid;

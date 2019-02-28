@@ -1,68 +1,66 @@
 #include "server.h"
-#include <errno.h>
 
-static int serverQID;
-static int globalSID;
-
-int srvr() {
+int server_entry() {
     // Threading variable
-    pthread_t controlThread;
-    int running = 1;
+    pthread_t thread_exit_watcher;
+    int exit_watcher = 1;
 
-    // Client
-    int pid;
-    int priority;
-    char filename[MSGSIZE];
-    FILE *file;
+    // Client Info
+    int c_pid;
+    int c_priority;
+
+    FILE *c_ptr_file;
+    char c_filename[MSGSIZE];
+    int c_file_size;
 
     int i;
-    int res;
-    int returnCode = 0;
+    int main_return_val = 0;
     int pleaseQuit = 0;
-    struct msgbuf sendBuffer;
+
+    struct msgbuf s_buffer;
 
     // Exit signal
-    signal(SIGINT, catchSig);
+    signal(SIGINT, abort_cleanup);
 
     // Start thread to check if program should stop running
-    if (pthread_create(&controlThread, NULL, server_control, (void *) &running)) {
-        perror("Could not start thread");
+    if (pthread_create(&thread_exit_watcher, NULL, server_control, &exit_watcher)) {
+        perror("Error: creating thread");
         return 1;
     }
 
     // Open queue
-    if ((serverQID = open_queue((int) getpid())) == -1) {
-        perror("Could not open queue");
+    if ((server_qid = queue_open((int) getpid())) == -1) {
+        perror("Error: opening message queue");
         return 1;
     } else {
-//        fprintf(stdout, "Use './assign2 [high|normal|low] %d' to make a request to this server\n", serverQID);
-        printf("\nCommand for client: ./MessageQueueApp client [S|M|L] <filename>\n");
+        printf("\nCommand for client: ./MessageQueueApp client %d [S|M|L] <filename>\n", server_qid);
         fflush(stdout);
     }
 
-    if ((globalSID = create_semaphore((int) getpid())) < 0) {
-        perror("Could not create semaphore");
+    // create semaphore
+    if ((semaphore_id = create_semaphore((int) getpid())) < 0) {
+        perror("Error: creating semaphore");
         return 1;
     }
 
-    V(globalSID);
+    V(semaphore_id);//TODO:
 
-    while (running) {
-        if (!acceptClients(&pid, &priority, filename)) {
+    while (exit_watcher) {
+        if (!acceptClients(&c_pid, &c_priority, c_filename)) {
             sched_yield();
             continue;
         }
 
         // Fork and serve if it is the child
         if (!fork()) {
-            file = fopen(filename, "r");
+            c_ptr_file = fopen(c_filename, "r");
 
-            if (file == NULL) {
-                sendBuffer.mtype = pid;
-                strcpy(sendBuffer.mtext, "Error: Could not open file");
-                sendBuffer.mlen = 27;
+            if (c_ptr_file == NULL) {
+                s_buffer.mtype = c_pid;
+                strcpy(s_buffer.mtext, "Error: Could not open file");
+                s_buffer.mlen = 27;
 
-                if (send_message(serverQID, &sendBuffer) == -1) {
+                if (send_message(server_qid, &s_buffer) == -1) {
                     perror("Problem sending to client");
                 }
 
@@ -71,29 +69,30 @@ int srvr() {
             }
 
             printf("%d> child started\n", getpid());
-            sendBuffer.mtype = pid;
+            s_buffer.mtype = c_pid;
 
-            while (!feof(file)) {
-                P(globalSID);
-                for (i = 0; i < priority; i++) {
-                    res = (int) read_file(file, &sendBuffer);
+            while (!feof(c_ptr_file)) {
+                P(semaphore_id);
+                for (i = 0; i < c_priority; i++) {
+                    c_file_size = (int) read_file(c_ptr_file, &s_buffer);
 
-                    if (res == 0) {
-                        returnCode = 0;
+                    if (c_file_size == 0) {
+                        main_return_val = 0;
                         pleaseQuit = 1;
                     }
 
-                    if (res < 0) {
+                    if (c_file_size < 0) {
                         perror("Problem reading from file");
-                        returnCode = pleaseQuit = 1;
+                        main_return_val = pleaseQuit = 1;
                     }
 
-                    if (send_message(serverQID, &sendBuffer) == -1) {
+                    if (send_message(server_qid, &s_buffer) == -1) {
                         perror("Problem sending message");
-                        returnCode = pleaseQuit = 1;
+                        main_return_val = pleaseQuit = 1;
                     }
                 }
-                V(globalSID);
+
+                V(semaphore_id);
 
                 sched_yield();
 
@@ -103,21 +102,21 @@ int srvr() {
             }
 
             printf("%d> child is finished and exiting\n", getpid());
-            return returnCode;
+            return main_return_val;
         }
     }
 
-    if (remove_semaphore(globalSID) == -1) {
+    if (remove_semaphore(semaphore_id) == -1) {
         perror("Could not remove semaphore");
     }
 
     // Close queue when parent exits
-    if (remove_queue(serverQID) == -1) {
+    if (remove_queue(server_qid) == -1) {
         perror("Problem with closing the queue");
         return (1);
     }
 
-    pthread_join(controlThread, 0);
+    pthread_join(thread_exit_watcher, 0);
     return 0;
 }
 
@@ -143,9 +142,9 @@ void *server_control(void *params) {
     return NULL;
 }
 
-void catchSig(int sig) {
-    remove_semaphore(globalSID);
-    remove_queue(serverQID);
+void abort_cleanup(int code) {
+    remove_semaphore(semaphore_id);
+    remove_queue(server_qid);
     exit(0);
 }
 
@@ -154,7 +153,7 @@ int acceptClients(int *pPid, int *pPriority, char *filename) {
     memset(&buffer, 0, sizeof(struct msgbuf));
 
     // If a new client is found...
-    if (read_message_blocking(serverQID, C_TO_S, &buffer) > 0) {
+    if (read_message_blocking(server_qid, C_TO_S, &buffer) > 0) {
         printf("server> New request: [%s]\n", buffer.mtext);
 
         // Grab the filename and pid

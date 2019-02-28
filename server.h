@@ -1,21 +1,25 @@
 #pragma once
 
-#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
+#include <string.h>
+#include <signal.h>
+#include <errno.h>
 
-#include "files.h"
-#include "message_queue.h"
 #include "threads.h"
+#include "message_queue.h"
 #include "semaphore.h"
+#include "files.h"
 
-int srvr();
+static int server_qid;
+static int semaphore_id;
+
+int server_entry();
 
 void *server_control(void *params);
 
-void catchSig(int sig);
+void abort_cleanup(int code);
 
 int acceptClients(int *pPid, int *pPriority, char *pFile);
 

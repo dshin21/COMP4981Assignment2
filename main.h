@@ -5,7 +5,6 @@
 
 #include "message_queue.h"
 #include "files.h"
-
 #include "server.h"
 #include "client.h"
 
@@ -15,6 +14,6 @@
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
-void entry_client(char *const *argv);
+void client_entry(char *const *argv);
 
 int cli_guide();

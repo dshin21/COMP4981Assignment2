@@ -7,16 +7,16 @@ int main(int argc, char *argv[]) {
 
     if (strcmp(argv[1], "server") == 0) {
         printf("in server\n");
-        return srvr();
+        return server_entry();
     } else if (strcmp(argv[1], "client") == 0) {
         printf("in client\n");
         if (argc != 3) return cli_guide();
-        entry_client(argv);
+        client_entry(argv);
     }
     return 0;
 }
 
-void entry_client(char *const *argv) {
+void client_entry(char *const *argv) {
     int qid = atoi(argv[2]);
     int priority;
 
