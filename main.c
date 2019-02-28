@@ -3,6 +3,7 @@
 
 int main(int argc, char *argv[]) {
     if (argc < 2) cli_guide();
+    printf("in main");
 
     if (strcmp(argv[1], "server") == 0) {
         printf("in server");
