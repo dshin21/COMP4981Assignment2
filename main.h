@@ -15,4 +15,6 @@
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
-void printUsage();
+void entry_client(char *const *argv);
+
+int cli_guide();
