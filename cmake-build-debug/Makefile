@@ -48,10 +48,10 @@ RM = /cygdrive/c/Users/danie/.CLion2018.3/system/cygwin_cmake/bin/cmake.exe -E r
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /cygdrive/c/Users/danie/Desktop/COMP4981_asn2
+CMAKE_SOURCE_DIR = /cygdrive/d/COMP4981_asn2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /cygdrive/c/Users/danie/Desktop/COMP4981_asn2/cmake-build-debug
+CMAKE_BINARY_DIR = /cygdrive/d/COMP4981_asn2/cmake-build-debug
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/Users/danie/Desktop/COMP4981_asn2/cmake-build-debug/CMakeFiles /cygdrive/c/Users/danie/Desktop/COMP4981_asn2/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/d/COMP4981_asn2/cmake-build-debug/CMakeFiles /cygdrive/d/COMP4981_asn2/cmake-build-debug/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/c/Users/danie/Desktop/COMP4981_asn2/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /cygdrive/d/COMP4981_asn2/cmake-build-debug/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,17 +111,71 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named COMP4981_asn2
+# Target rules for targets named COMP4981_asn2_test
 
 # Build rule for target.
-COMP4981_asn2: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 COMP4981_asn2
-.PHONY : COMP4981_asn2
+COMP4981_asn2_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 COMP4981_asn2_test
+.PHONY : COMP4981_asn2_test
 
 # fast build rule for target.
-COMP4981_asn2/fast:
-	$(MAKE) -f CMakeFiles/COMP4981_asn2.dir/build.make CMakeFiles/COMP4981_asn2.dir/build
-.PHONY : COMP4981_asn2/fast
+COMP4981_asn2_test/fast:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/build
+.PHONY : COMP4981_asn2_test/fast
+
+client.o: client.c.o
+
+.PHONY : client.o
+
+# target to build an object file
+client.c.o:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/client.c.o
+.PHONY : client.c.o
+
+client.i: client.c.i
+
+.PHONY : client.i
+
+# target to preprocess a source file
+client.c.i:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/client.c.i
+.PHONY : client.c.i
+
+client.s: client.c.s
+
+.PHONY : client.s
+
+# target to generate assembly for a file
+client.c.s:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/client.c.s
+.PHONY : client.c.s
+
+files.o: files.c.o
+
+.PHONY : files.o
+
+# target to build an object file
+files.c.o:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/files.c.o
+.PHONY : files.c.o
+
+files.i: files.c.i
+
+.PHONY : files.i
+
+# target to preprocess a source file
+files.c.i:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/files.c.i
+.PHONY : files.c.i
+
+files.s: files.c.s
+
+.PHONY : files.s
+
+# target to generate assembly for a file
+files.c.s:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/files.c.s
+.PHONY : files.c.s
 
 main.o: main.c.o
 
@@ -129,7 +183,7 @@ main.o: main.c.o
 
 # target to build an object file
 main.c.o:
-	$(MAKE) -f CMakeFiles/COMP4981_asn2.dir/build.make CMakeFiles/COMP4981_asn2.dir/main.c.o
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/main.c.o
 .PHONY : main.c.o
 
 main.i: main.c.i
@@ -138,7 +192,7 @@ main.i: main.c.i
 
 # target to preprocess a source file
 main.c.i:
-	$(MAKE) -f CMakeFiles/COMP4981_asn2.dir/build.make CMakeFiles/COMP4981_asn2.dir/main.c.i
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/main.c.i
 .PHONY : main.c.i
 
 main.s: main.c.s
@@ -147,8 +201,89 @@ main.s: main.c.s
 
 # target to generate assembly for a file
 main.c.s:
-	$(MAKE) -f CMakeFiles/COMP4981_asn2.dir/build.make CMakeFiles/COMP4981_asn2.dir/main.c.s
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/main.c.s
 .PHONY : main.c.s
+
+message_queue.o: message_queue.c.o
+
+.PHONY : message_queue.o
+
+# target to build an object file
+message_queue.c.o:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/message_queue.c.o
+.PHONY : message_queue.c.o
+
+message_queue.i: message_queue.c.i
+
+.PHONY : message_queue.i
+
+# target to preprocess a source file
+message_queue.c.i:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/message_queue.c.i
+.PHONY : message_queue.c.i
+
+message_queue.s: message_queue.c.s
+
+.PHONY : message_queue.s
+
+# target to generate assembly for a file
+message_queue.c.s:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/message_queue.c.s
+.PHONY : message_queue.c.s
+
+semaphore.o: semaphore.c.o
+
+.PHONY : semaphore.o
+
+# target to build an object file
+semaphore.c.o:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/semaphore.c.o
+.PHONY : semaphore.c.o
+
+semaphore.i: semaphore.c.i
+
+.PHONY : semaphore.i
+
+# target to preprocess a source file
+semaphore.c.i:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/semaphore.c.i
+.PHONY : semaphore.c.i
+
+semaphore.s: semaphore.c.s
+
+.PHONY : semaphore.s
+
+# target to generate assembly for a file
+semaphore.c.s:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/semaphore.c.s
+.PHONY : semaphore.c.s
+
+server.o: server.c.o
+
+.PHONY : server.o
+
+# target to build an object file
+server.c.o:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/server.c.o
+.PHONY : server.c.o
+
+server.i: server.c.i
+
+.PHONY : server.i
+
+# target to preprocess a source file
+server.c.i:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/server.c.i
+.PHONY : server.c.i
+
+server.s: server.c.s
+
+.PHONY : server.s
+
+# target to generate assembly for a file
+server.c.s:
+	$(MAKE) -f CMakeFiles/COMP4981_asn2_test.dir/build.make CMakeFiles/COMP4981_asn2_test.dir/server.c.s
+.PHONY : server.c.s
 
 # Help Target
 help:
@@ -157,11 +292,26 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... COMP4981_asn2"
+	@echo "... COMP4981_asn2_test"
 	@echo "... edit_cache"
+	@echo "... client.o"
+	@echo "... client.i"
+	@echo "... client.s"
+	@echo "... files.o"
+	@echo "... files.i"
+	@echo "... files.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... message_queue.o"
+	@echo "... message_queue.i"
+	@echo "... message_queue.s"
+	@echo "... semaphore.o"
+	@echo "... semaphore.i"
+	@echo "... semaphore.s"
+	@echo "... server.o"
+	@echo "... server.i"
+	@echo "... server.s"
 .PHONY : help
 
 

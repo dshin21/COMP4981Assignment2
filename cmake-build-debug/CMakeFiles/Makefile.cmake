@@ -103,5 +103,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/COMP4981_asn2.dir/DependInfo.cmake"
+  "CMakeFiles/COMP4981_asn2_test.dir/DependInfo.cmake"
   )
