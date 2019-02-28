@@ -21,17 +21,7 @@ int client(const int server_qid, const int client_priority, const char *client_f
         perror("Could not start thread");
         return 1;
     }
-
-    // Place the filename and child PID into buffer
-    memset(&mBuffer, 0, sizeof(struct msgbuf));
-    mBuffer.mtype = CLIENT_TO_SERVER;
-    sprintf(mBuffer.mtext, "%d/%d\t%s", pid, p.priority, client_file_name);
-    mBuffer.mlen = (int) strlen(mBuffer.mtext);
-
-    // Send the buffer
-    if (send_message(p.qid, &mBuffer) == -1) {
-        perror("Problem writing to the message queue");
-    }
+    client_send_info(client_file_name, &p, &mBuffer);
 
     // If the message is not full that means it is the last one
     while (running) {
@@ -61,22 +51,29 @@ int client(const int server_qid, const int client_priority, const char *client_f
     return 0;
 }
 
+void client_send_info(const char *client_file_name, struct params *p, struct msgbuf *mBuffer) {
+    // Place the filename and child PID into buffer
+    memset(mBuffer, 0, sizeof(struct msgbuf));
+    mBuffer->mtype = CLIENT_TO_SERVER;
+    sprintf(mBuffer->mtext, "PID: %d | Priority: %d File Name: \t%s", p->pid, p->priority, client_file_name);
+    mBuffer->mlen = (int) strlen(mBuffer->mtext);
+
+    // Send the buffer
+    if (send_message(p->qid, mBuffer) == -1) {
+        perror("Problem writing to the message queue");
+    }
+//    return (*mBuffer);
+}
+
 void *client_control(void *params) {
     char line[MSGSIZE];
     char command[MSGSIZE];
-
     struct params *p = params;
     int *pRunning = p->pRunning;
-    int priority = p->priority;
-    int pid = p->pid;
-    int qid = p->qid;
-
-    struct msgbuf buffer;
 
     while (*pRunning) {
         if (fgets(line, MSGSIZE, stdin)) {
             if (sscanf(line, "%s", command) == 1) {
-
                 // If it is the quit command
                 if (!strcmp(command, "quit") ||
                     !strcmp(command, "stop") ||
@@ -86,13 +83,9 @@ void *client_control(void *params) {
                     *pRunning = 0;
                     pthread_mutex_unlock(&mutex);
                     kill(0, SIGINT);
-                } else {
-
-
                 }
             }
         }
     }
-
     return NULL;
 }
