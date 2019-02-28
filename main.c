@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
         return server_entry();
     } else if (strcmp(argv[1], "client") == 0) {
         printf("in client\n");
-        if (argc != 4) return cli_guide();
+//        if (argc != 4) return cli_guide();
         client_entry(argv);
     }
     return 0;
@@ -18,14 +18,14 @@ int main(int argc, char *argv[]) {
 
 void client_entry(char *const *argv) {
     printf("in client_entry\n");
-    int qid = atoi(argv[3]);
+    int qid = atoi(argv[2]);
     int priority;
 
-    if (!strcmp(argv[4], "S")) {
+    if (!strcmp(argv[3], "S")) {
         priority = PRIORITY_SMALL;
-    } else if (!strcmp(argv[4], "M")) {
+    } else if (!strcmp(argv[3], "M")) {
         priority = PRIORITY_MEDIUM;
-    } else if (!strcmp(argv[4], "L")) {
+    } else if (!strcmp(argv[3], "L")) {
         priority = PRIORITY_LARGE;
     } else {
         cli_guide();
