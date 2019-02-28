@@ -79,7 +79,7 @@ void *client_control(void *params) {
 
                     // Place the filename and child PID into buffer
                     memset(&buffer, 0, sizeof(struct msgbuf));
-                    buffer.mtype = C_TO_S;
+                    buffer.mtype = CLIENT_TO_SERVER;
                     sprintf(buffer.mtext, "%d/%d\t%s", pid, priority, command);
                     buffer.mlen = (int) strlen(buffer.mtext);
 

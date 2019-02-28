@@ -153,7 +153,7 @@ int acceptClients(int *pPid, int *pPriority, char *filename) {
     memset(&buffer, 0, sizeof(struct msgbuf));
 
     // If a new client is found...
-    if (read_message_blocking(server_qid, C_TO_S, &buffer) > 0) {
+    if (read_message_blocking(server_qid, CLIENT_TO_SERVER, &buffer) > 0) {
         printf("server> New request: [%s]\n", buffer.mtext);
 
         // Grab the filename and pid

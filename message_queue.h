@@ -5,8 +5,7 @@
 #include <sys/msg.h>    // message queue structures
 #include "threads.h"
 
-#define S_TO_C 1
-#define C_TO_S 1
+#define CLIENT_TO_SERVER 1
 #define MSGHEADERSIZE (sizeof(int) + sizeof(long))
 #define MSGSIZE (4096 - MSGHEADERSIZE)
 

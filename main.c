@@ -18,14 +18,14 @@ int main(int argc, char *argv[]) {
 
 void client_entry(char *const *argv) {
     printf("in client_entry\n");
-    int qid = atoi(argv[2]);
+    int qid = atoi(argv[3]);
     int priority;
 
-    if (!strcmp(argv[2], "S")) {
+    if (!strcmp(argv[4], "S")) {
         priority = PRIORITY_SMALL;
-    } else if (!strcmp(argv[2], "M")) {
+    } else if (!strcmp(argv[4], "M")) {
         priority = PRIORITY_MEDIUM;
-    } else if (!strcmp(argv[2], "L")) {
+    } else if (!strcmp(argv[4], "L")) {
         priority = PRIORITY_LARGE;
     } else {
         cli_guide();
@@ -40,6 +40,6 @@ void client_entry(char *const *argv) {
 
 
 int cli_guide() {
-    printf("\nHow to use the MessageQueueApp: ./MessageQueueApp [server | client [S|M|L] <filename>]\n");
+    printf("\nHow to use the MessageQueueApp: ./MessageQueueApp [server | client <server qid> [S|M|L] <filename>]\n");
     return 0;
 }
