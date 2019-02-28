@@ -5,8 +5,10 @@ int main(int argc, char *argv[]) {
     if (argc < 2) cli_guide();
 
     if (strcmp(argv[1], "server") == 0) {
+        printf("in server");
         return srvr();
     } else if (strcmp(argv[1], "client") == 0) {
+        printf("in client");
         if (argc != 3) return cli_guide();
         entry_client(argv);
     }
