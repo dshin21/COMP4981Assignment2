@@ -177,18 +177,18 @@ void parseClientRequest(const char *message, int *pid, int *priority, char *file
     pidStart = tmp;
 
     for (i = 0; tmp[i]; i++) {
-        if (tmp[i] == '\t') {
-            if (count == 0) {
-                tmp[i] = '\0';
-                priorityStart = tmp + i + 1;
-                count++;
-            }
-            if (count == 1) {
-                tmp[i] = '\0';
-                fileStart = tmp + i + 1;
-                count++;
-            }
+
+        if (count == 0 && tmp[i] == ' ') {
+            tmp[i] = '\0';
+            priorityStart = tmp + i + 1;
+            count++;
         }
+        if (count == 1 && tmp[i] == ' ') {
+            tmp[i] = '\0';
+            fileStart = tmp + i + 1;
+            count++;
+        }
+
     }
     *pid = atoi(pidStart);
     *priority = atoi(priorityStart);

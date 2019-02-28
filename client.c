@@ -25,7 +25,7 @@ int client(const int server_qid, const int client_priority, const char *client_f
     // Place the filename and child PID into buffer
     memset(&mBuffer, 0, sizeof(struct msgbuf));
     mBuffer.mtype = CLIENT_TO_SERVER;
-    sprintf(mBuffer.mtext, "%d\t%d\t%s", pid, p.priority, client_file_name);
+    sprintf(mBuffer.mtext, "%d %d %s", pid, p.priority, client_file_name);
     mBuffer.mlen = (int) strlen(mBuffer.mtext);
 
     // Send the buffer
