@@ -15,6 +15,6 @@ struct params {
     int priority;
 };
 
-int clnt(const int qid, const int priority);
+int client(int server_qid, int client_priority, const char *client_file_name);
 
 void *client_control(void *params);

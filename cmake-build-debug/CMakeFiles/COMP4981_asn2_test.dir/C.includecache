@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/cygdrive/d/COMP4981_asn2/client.c
+client.h
+/cygdrive/d/COMP4981_asn2/client.h
+
 /cygdrive/d/COMP4981_asn2/client.h
 signal.h
 -
@@ -43,9 +47,9 @@ stdio.h
 -
 stdlib.h
 -
-string.h
--
 unistd.h
+-
+string.h
 -
 message_queue.h
 /cygdrive/d/COMP4981_asn2/message_queue.h
@@ -77,24 +81,26 @@ sys/sem.h
 -
 
 /cygdrive/d/COMP4981_asn2/server.h
-signal.h
--
 stdio.h
 -
 stdlib.h
 -
-string.h
--
 unistd.h
 -
-files.h
-/cygdrive/d/COMP4981_asn2/files.h
-message_queue.h
-/cygdrive/d/COMP4981_asn2/message_queue.h
+string.h
+-
+signal.h
+-
+errno.h
+-
 threads.h
 /cygdrive/d/COMP4981_asn2/threads.h
+message_queue.h
+/cygdrive/d/COMP4981_asn2/message_queue.h
 semaphore.h
 /cygdrive/d/COMP4981_asn2/semaphore.h
+files.h
+/cygdrive/d/COMP4981_asn2/files.h
 
 /cygdrive/d/COMP4981_asn2/threads.h
 pthread.h

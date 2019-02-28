@@ -43,7 +43,7 @@ int server_entry() {
         return 1;
     }
 
-    V(semaphore_id);//TODO:
+    V(semaphore_id);
 
     while (exit_watcher) {
         if (!acceptClients(&c_pid, &c_priority, c_filename)) {

@@ -2,7 +2,7 @@
 
 pthread_mutex_t mutex;
 
-int clnt(const int qid, const int priority) {
+int client(const int server_qid, const int client_priority, const char *client_file_name) {
     pthread_t controlThread;
     struct params p;
     int pid;
@@ -13,19 +13,30 @@ int clnt(const int qid, const int priority) {
 
     // Start thread to check if program should stop running
     p.pRunning = &running;
-    p.qid = qid;
+    p.qid = server_qid;
     p.pid = pid;
-    p.priority = priority;
+    p.priority = client_priority;
 
     if (pthread_create(&controlThread, NULL, client_control, (void *) &p)) {
         perror("Could not start thread");
         return 1;
     }
 
+    // Place the filename and child PID into buffer
+    memset(&mBuffer, 0, sizeof(struct msgbuf));
+    mBuffer.mtype = CLIENT_TO_SERVER;
+    sprintf(mBuffer.mtext, "%d/%d\t%s", pid, p.priority, client_file_name);
+    mBuffer.mlen = (int) strlen(mBuffer.mtext);
+
+    // Send the buffer
+    if (send_message(p.qid, &mBuffer) == -1) {
+        perror("Problem writing to the message queue");
+    }
+
     // If the message is not full that means it is the last one
     while (running) {
         memset(&mBuffer, 0, sizeof(struct msgbuf));
-        if (read_message_blocking(qid, pid, &mBuffer) <= 0) {
+        if (read_message_blocking(server_qid, pid, &mBuffer) <= 0) {
             sched_yield();
             continue;
         }
@@ -77,16 +88,7 @@ void *client_control(void *params) {
                     kill(0, SIGINT);
                 } else {
 
-                    // Place the filename and child PID into buffer
-                    memset(&buffer, 0, sizeof(struct msgbuf));
-                    buffer.mtype = CLIENT_TO_SERVER;
-                    sprintf(buffer.mtext, "%d/%d\t%s", pid, priority, command);
-                    buffer.mlen = (int) strlen(buffer.mtext);
 
-                    // Send the buffer
-                    if (send_message(qid, &buffer) == -1) {
-                        perror("Problem writing to the message queue");
-                    }
                 }
             }
         }

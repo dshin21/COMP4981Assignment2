@@ -16,23 +16,25 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-void client_entry(char *const *argv) {
+void client_entry(char *const argv[]) {
     printf("in client_entry\n");
-    int qid = atoi(argv[2]);
-    int priority;
+
+    int server_qid = atoi(argv[2]);
+    int client_priority;
+    const char *client_file_name = argv[4];
 
     if (!strcmp(argv[3], "S")) {
-        priority = PRIORITY_SMALL;
+        client_priority = PRIORITY_SMALL;
     } else if (!strcmp(argv[3], "M")) {
-        priority = PRIORITY_MEDIUM;
+        client_priority = PRIORITY_MEDIUM;
     } else if (!strcmp(argv[3], "L")) {
-        priority = PRIORITY_LARGE;
+        client_priority = PRIORITY_LARGE;
     } else {
         cli_guide();
         exit(0);
     }
 
-    if (clnt(qid, priority) != 0) {
+    if (client(server_qid, client_priority, (char *) client_file_name) != 0) {
         perror("Error with client");
         exit(1);
     }
