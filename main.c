@@ -20,11 +20,11 @@ void client_entry(char *const *argv) {
     int qid = atoi(argv[2]);
     int priority;
 
-    if (!strcmp(argv[1], "S")) {
+    if (!strcmp(argv[2], "S")) {
         priority = PRIORITY_SMALL;
-    } else if (!strcmp(argv[1], "M")) {
+    } else if (!strcmp(argv[2], "M")) {
         priority = PRIORITY_MEDIUM;
-    } else if (!strcmp(argv[1], "L")) {
+    } else if (!strcmp(argv[2], "L")) {
         priority = PRIORITY_LARGE;
     } else {
         cli_guide();
