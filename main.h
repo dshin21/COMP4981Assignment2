@@ -1,17 +1,17 @@
-#define HIGH    16
-#define NORMAL  4
-#define LOW     1
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "message_queue.h"
 #include "files.h"
 
 #include "server.h"
 #include "client.h"
+
+#define PRIORITY_SMALL 1
+#define PRIORITY_MEDIUM 2
+#define PRIORITY_LARGE 3
 
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 

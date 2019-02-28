@@ -3,13 +3,13 @@
 
 int main(int argc, char *argv[]) {
     if (argc < 2) cli_guide();
-    printf("in main");
+    printf("in main\n");
 
     if (strcmp(argv[1], "server") == 0) {
-        printf("in server");
+        printf("in server\n");
         return srvr();
     } else if (strcmp(argv[1], "client") == 0) {
-        printf("in client");
+        printf("in client\n");
         if (argc != 3) return cli_guide();
         entry_client(argv);
     }
@@ -17,21 +17,15 @@ int main(int argc, char *argv[]) {
 }
 
 void entry_client(char *const *argv) {
-    int qid;
+    int qid = atoi(argv[2]);
     int priority;
-    char *p;
 
-    // grab qid of server
-    qid = atoi(argv[2]);
-
-    // grab priority
-    p = argv[1];
-    if (!strcmp(p, "high")) {
-        priority = HIGH;
-    } else if (!strcmp(p, "normal")) {
-        priority = NORMAL;
-    } else if (!strcmp(p, "low")) {
-        priority = LOW;
+    if (!strcmp(argv[1], "S")) {
+        priority = PRIORITY_SMALL;
+    } else if (!strcmp(argv[1], "M")) {
+        priority = PRIORITY_MEDIUM;
+    } else if (!strcmp(argv[1], "L")) {
+        priority = PRIORITY_LARGE;
     } else {
         cli_guide();
         exit(0);
