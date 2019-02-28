@@ -10,13 +10,14 @@ int main(int argc, char *argv[]) {
         return server_entry();
     } else if (strcmp(argv[1], "client") == 0) {
         printf("in client\n");
-        if (argc != 3) return cli_guide();
+        if (argc != 4) return cli_guide();
         client_entry(argv);
     }
     return 0;
 }
 
 void client_entry(char *const *argv) {
+    printf("in client_entry\n");
     int qid = atoi(argv[2]);
     int priority;
 
