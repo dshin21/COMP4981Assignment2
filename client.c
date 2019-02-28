@@ -2,12 +2,13 @@
 
 pthread_mutex_t mutex;
 
+
 int client(const int server_qid, const int client_priority, const char *client_file_name) {
     pthread_t controlThread;
     struct params p;
-    struct msgbuf mBuffer;
     int pid;
     int running = 1;
+    struct msgbuf mBuffer;
 
     pid = (int) getpid();
 
@@ -21,7 +22,7 @@ int client(const int server_qid, const int client_priority, const char *client_f
         perror("Could not start thread");
         return 1;
     }
-    client_send_info(client_file_name, p, mBuffer);
+    mBuffer = client_send_info(client_file_name, &p, pid, &mBuffer);
 
     // If the message is not full that means it is the last one
     while (running) {
@@ -51,19 +52,16 @@ int client(const int server_qid, const int client_priority, const char *client_f
     return 0;
 }
 
-void client_send_info(const char *client_file_name, struct params p, struct msgbuf mBuffer) {
+struct msgbuf client_send_info(const char *client_file_name, struct params *p, int pid, struct msgbuf *mBuffer) {
     // Place the filename and child PID into buffer
-    memset(&mBuffer, 0, sizeof(struct msgbuf));
-    mBuffer.mtype = CLIENT_TO_SERVER;
-    sprintf(mBuffer.mtext, "PID: %d | Priority: %d File Name: %s", p.pid, p.priority, client_file_name);
-    mBuffer.mlen = (int) strlen(mBuffer.mtext);
-    printf("%s", mBuffer.mtext);
+    memset(mBuffer, 0, sizeof(struct msgbuf));
+    mBuffer->mtype = CLIENT_TO_SERVER;
+    sprintf(mBuffer->mtext, "PID: %d | Priority: %d File Name: \t%s", pid, p->priority, client_file_name);
+    mBuffer->mlen = (int) strlen(mBuffer->mtext);
 
     // Send the buffer
-    if (send_message(p.qid, &mBuffer) == -1) {
-        perror("Problem writing to the message queue");
-    }
-//    return (*mBuffer);
+    if (send_message(p->qid, mBuffer) == -1) perror("Problem writing to the message queue");
+    return (*mBuffer);
 }
 
 void *client_control(void *params) {
