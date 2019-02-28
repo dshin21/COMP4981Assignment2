@@ -35,7 +35,8 @@ int srvr() {
         perror("Could not open queue");
         return 1;
     } else {
-        fprintf(stdout, "Use './assign2 [high|normal|low] %d' to make a request to this server\n", serverQID);
+//        fprintf(stdout, "Use './assign2 [high|normal|low] %d' to make a request to this server\n", serverQID);
+        printf("\nCommand for client: ./MessageQueueApp client [S|M|L] <filename>\n");
         fflush(stdout);
     }
 
