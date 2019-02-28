@@ -192,5 +192,5 @@ void parseClientRequest(const char *message, int *pid, int *priority, char *file
     *pid = atoi(pidStart);
     *priority = atoi(priorityStart);
     memcpy(filename, fileStart, strlen(fileStart));
-    printf("%d %s %s", *pid,priorityStart,filename);
+    printf("%d %s %s", *pid, priorityStart, filename);
 }
