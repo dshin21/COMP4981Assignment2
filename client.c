@@ -5,9 +5,9 @@ pthread_mutex_t mutex;
 int client(const int server_qid, const int client_priority, const char *client_file_name) {
     pthread_t controlThread;
     struct params p;
+    struct msgbuf mBuffer;
     int pid;
     int running = 1;
-    struct msgbuf mBuffer;
 
     pid = (int) getpid();
 
@@ -57,6 +57,7 @@ void client_send_info(const char *client_file_name, struct params *p, struct msg
     mBuffer->mtype = CLIENT_TO_SERVER;
     sprintf(mBuffer->mtext, "PID: %d | Priority: %d File Name: \t%s", p->pid, p->priority, client_file_name);
     mBuffer->mlen = (int) strlen(mBuffer->mtext);
+    printf("%s",mBuffer->mtext);
 
     // Send the buffer
     if (send_message(p->qid, mBuffer) == -1) {

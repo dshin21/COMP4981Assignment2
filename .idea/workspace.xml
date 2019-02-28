@@ -13,8 +13,6 @@
   <component name="ChangeListManager">
     <list default="true" id="24674443-d18b-44be-bdf2-bd2e486ca6cc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/client.c" beforeDir="false" afterPath="$PROJECT_DIR$/client.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client.h" beforeDir="false" afterPath="$PROJECT_DIR$/client.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.c" beforeDir="false" afterPath="$PROJECT_DIR$/server.c" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -101,8 +99,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/client.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="61" column="24" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
+            <state relative-caret-position="358">
+              <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -248,19 +246,19 @@
       <workItem from="1551313337328" duration="12328000" />
       <workItem from="1551349179539" duration="2182000" />
       <workItem from="1551353261516" duration="193000" />
-      <workItem from="1551354588734" duration="13267000" />
+      <workItem from="1551354588734" duration="13393000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28304000" />
+    <option name="totallyTimeSpent" value="28430000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="57" y="0" width="1262" height="1087" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.58297414" visible="true" weight="0.17054908" />
-      <window_info id="Structure" order="1" sideWeight="0.41702586" side_tool="true" visible="true" weight="0.17054908" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5830013" visible="true" weight="0.17054908" />
+      <window_info id="Structure" order="1" sideWeight="0.41699868" side_tool="true" visible="true" weight="0.17054908" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297414" />
@@ -271,7 +269,7 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.3297414" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.18857759" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.18857759" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.3297414" />
       <window_info anchor="bottom" id="CMake" order="12" />
@@ -442,8 +440,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="61" column="24" selection-start-line="61" selection-start-column="24" selection-end-line="61" selection-end-column="24" />
+        <state relative-caret-position="358">
+          <caret line="59" column="16" selection-start-line="59" selection-start-column="16" selection-end-line="59" selection-end-column="16" />
         </state>
       </provider>
     </entry>
