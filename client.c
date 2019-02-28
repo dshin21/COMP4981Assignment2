@@ -91,5 +91,6 @@ void *client_control(void *params) {
             }
         }
     }
+
     return NULL;
 }
