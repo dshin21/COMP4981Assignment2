@@ -9,7 +9,7 @@ int server_entry() {
     int i;
     int main_return_val = 0;
     int pleaseQuit = 0;
- 
+
     struct message_object s_buffer;
     struct client_info c_info;
 
@@ -30,7 +30,7 @@ int server_entry() {
         printf("\nCommand for client: ./MessageQueueApp client %d [S|M|L] <filename>\n", server_qid);
         fflush(stdout);
     }
-    
+
 
     // create semaphore
     if ((semaphore_id = create_semaphore((int) getpid())) < 0) {
@@ -119,10 +119,11 @@ int server_entry() {
 
 void *exit_handler(void *exit_watcher) {
     int *pRunning = (int *) exit_watcher;
+    char temp[128];
     char user_input[128];
 
     while (*pRunning) {
-        if (fgets(user_input, 128, stdin) && !strcmp(user_input, "s")) {
+        if (fgets(temp, 128, stdin) && sscanf(temp, "%s", user_input) == 1 && !strcmp(user_input, "s")) {
             kill(0, SIGINT);
             *pRunning = 0;
         }
@@ -151,7 +152,7 @@ int acceptClients(struct client_info *c_info) {
         // Grab the filename and pid
         memset(c_info->client_file_name, 0, MSGSIZE);
         parseClientRequest(buffer.mtext, &c_info->client_pid, &c_info->client_priority, c_info->client_file_name);
-        
+
         return 1;
     }
     return 0;
@@ -182,7 +183,7 @@ void parseClientRequest(const char *message, int *pid, int *priority, char *file
         }
 
     }
-    
+
     *pid = atoi(pidStart);
     *priority = atoi(priorityStart);
     memcpy(filename, fileStart, strlen(fileStart));
