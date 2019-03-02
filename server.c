@@ -47,7 +47,7 @@ int server_entry() {
             sched_yield();
             continue;
         }
-        printf("%s", c_info.client_file_name);
+
         // Fork and serve if it is the child
         if (!fork()) {
             printf("%s", c_info.client_file_name);
@@ -149,10 +149,7 @@ int acceptClients(struct client_info *c_info) {
         printf("New Client - %s\n", buffer.mtext);
 
         // Grab the filename and pid
-//        memset(c_info->client_file_name, 0, MSGSIZE);
         parseClientRequest(buffer.mtext, &c_info->client_pid, &c_info->client_priority, c_info->client_file_name);
-        printf("%d %d %s\n", c_info->client_pid, c_info->client_priority, c_info->client_file_name);
-        printf("end of accept\n");
         return 1;
     }
     return 0;
