@@ -40,7 +40,6 @@ void client_entry(char *const argv[]) {
     }
 }
 
-
 int cli_guide() {
     printf("\nHow to use the MessageQueueApp: ./MessageQueueApp [server | client <server qid> [S|M|L] <filename>]\n");
     return 0;
