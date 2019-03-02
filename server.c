@@ -51,6 +51,7 @@ int server_entry() {
             continue;
         }
 
+        
         // Fork and serve if it is the child
         if (!fork()) {
             printf("%s", c_filename);
