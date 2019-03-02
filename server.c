@@ -10,7 +10,7 @@ int server_entry() {
     int i;
     int main_return_val = 0;
     int pleaseQuit = 0;
-
+ 
     struct message_object s_buffer;
     struct client_info c_info;
 
@@ -31,6 +31,7 @@ int server_entry() {
         printf("\nCommand for client: ./MessageQueueApp client %d [S|M|L] <filename>\n", server_qid);
         fflush(stdout);
     }
+    
 
     // create semaphore
     if ((semaphore_id = create_semaphore((int) getpid())) < 0) {
@@ -45,6 +46,7 @@ int server_entry() {
             sched_yield();
             continue;
         }
+
 
         // Fork and serve if it is the child
         if (!fork()) {
