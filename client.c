@@ -9,12 +9,10 @@ int client(const int server_qid, const int client_priority, const char *client_f
     struct params p;
     struct msgbuf mBuffer;
 
-    pid = (int) getpid();
-
     // Start thread to check if program should stop running
     p.pRunning = &running;
     p.qid = server_qid;
-    p.pid = pid;
+    p.pid = (int) getpid();
     p.priority = client_priority;
 
     if (pthread_create(&controlThread, NULL, client_control, (void *) &p)) {
@@ -27,7 +25,7 @@ int client(const int server_qid, const int client_priority, const char *client_f
     // If the message is not full that means it is the last one
     while (running) {
         memset(&mBuffer, 0, sizeof(struct msgbuf));
-        if (read_message_blocking(server_qid, pid, &mBuffer) <= 0) {
+        if (read_message_blocking(server_qid, p.pid, &mBuffer) <= 0) {
             sched_yield();
             continue;
         }
@@ -59,7 +57,8 @@ void client_send_info(struct params *p, struct msgbuf *mBuffer, int pid, const c
     mBuffer->mlen = (int) strlen(mBuffer->mtext);
 
     if (send_message(p->qid, mBuffer) == -1) {
-        perror("Problem writing to the message queue");
+        perror("Error: writing to message queue");
+
     }
 }
 
