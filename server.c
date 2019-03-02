@@ -6,11 +6,7 @@ int server_entry() {
     int exit_watcher = 1;
 
     // Client Info
-    int c_pid;
-    int c_priority;
-
     FILE *c_ptr_file;
-    char c_filename[MSGSIZE];
     int c_file_size;
 
     int i;
@@ -18,6 +14,7 @@ int server_entry() {
     int pleaseQuit = 0;
  
     struct message_object s_buffer;
+    struct client_info c_info;
 
     // Exit signal
     signal(SIGINT, abort_cleanup);
@@ -46,18 +43,19 @@ int server_entry() {
     V(semaphore_id);
 
     while (exit_watcher) {
-        if (!acceptClients(&c_pid, &c_priority, c_filename)) {
+        if (!acceptClients(&c_info)) {
             sched_yield();
             continue;
         }
 
+
         // Fork and serve if it is the child
         if (!fork()) {
-            printf("%s", c_filename);
-            c_ptr_file = fopen(c_filename, "r");
+            printf("%s", c_info.client_file_name);
+            c_ptr_file = fopen(c_info.client_file_name, "r");
 
             if (c_ptr_file == NULL) {
-                s_buffer.mtype = c_pid;
+                s_buffer.mtype = c_info.client_pid;
                 strcpy(s_buffer.mtext, "Error: Could not open file");
                 s_buffer.mlen = 27;
 
@@ -70,11 +68,11 @@ int server_entry() {
             }
 
             printf("%d> child started\n", getpid());
-            s_buffer.mtype = c_pid;
+            s_buffer.mtype = c_info.client_pid;
 
             while (!feof(c_ptr_file)) {
                 P(semaphore_id);
-                for (i = 0; i < c_priority; i++) {
+                for (i = 0; i < c_info.client_priority; i++) {
                     c_file_size = (int) read_file(c_ptr_file, &s_buffer);
 
                     if (c_file_size == 0) {
@@ -149,8 +147,10 @@ void abort_cleanup(int code) {
     exit(0);
 }
 
-int acceptClients(int *pPid, int *pPriority, char *filename) {
+int acceptClients(struct client_info *c_info) {
     struct message_object buffer;
+//    char c_filename[MSGSIZE];
+
     memset(&buffer, 0, sizeof(struct message_object));
 
     // If a new client is found...
@@ -158,8 +158,8 @@ int acceptClients(int *pPid, int *pPriority, char *filename) {
         printf("New Client - %s\n", buffer.mtext);
 
         // Grab the filename and pid
-        memset(filename, 0, MSGSIZE);
-        parseClientRequest(buffer.mtext, pPid, pPriority, filename);
+        memset(c_info->client_file_name, 0, MSGSIZE);
+        parseClientRequest(buffer.mtext, &c_info->client_pid, &c_info->client_priority, c_info->client_file_name);
         return 1;
     }
     return 0;
