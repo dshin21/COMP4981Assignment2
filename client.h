@@ -23,3 +23,4 @@ int client(int server_qid, int client_priority, const char *client_file_name);
 void client_send_info(struct client_info *p, struct message_object *mBuffer, int pid, const char *client_file_name);
 
 void *client_control(void *params);
+
