@@ -71,8 +71,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/server.c">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="416">
-                  <caret line="160" column="22" selection-start-line="160" selection-start-column="22" selection-end-line="160" selection-end-column="22" />
+                <state relative-caret-position="324">
+                  <caret line="158" column="19" selection-start-line="158" selection-start-column="19" selection-end-line="158" selection-end-column="19" />
                 </state>
               </provider>
             </entry>
@@ -135,7 +135,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Could not open queue</find>
       <find>./as</find>
       <find>assign</find>
       <find>assign2</find>
@@ -165,6 +164,7 @@
       <find>c_file_size</find>
       <find>c_filename</find>
       <find>exit_handler</find>
+      <find>exit</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -261,12 +261,12 @@
       <workItem from="1551349179539" duration="2182000" />
       <workItem from="1551353261516" duration="193000" />
       <workItem from="1551354588734" duration="15991000" />
-      <workItem from="1551495083491" duration="5353000" />
+      <workItem from="1551495083491" duration="5462000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36592000" />
+    <option name="totallyTimeSpent" value="36701000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -467,8 +467,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="160" column="22" selection-start-line="160" selection-start-column="22" selection-end-line="160" selection-end-column="22" />
+        <state relative-caret-position="324">
+          <caret line="158" column="19" selection-start-line="158" selection-start-column="19" selection-end-line="158" selection-end-column="19" />
         </state>
       </provider>
     </entry>

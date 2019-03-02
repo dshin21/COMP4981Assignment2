@@ -96,7 +96,7 @@ int server_entry() {
                 }
             }
 
-            printf("%d> child is finished and exiting\n", getpid());
+            printf("%d> child is finished and exiting\n\n", getpid());
             return main_return_val;
         }
     }
@@ -156,6 +156,7 @@ void parseClientRequest(const char *message, int *pid, int *priority, char *file
     char str[] = "";
     char delim[] = " ";
     char *ptr = strtok(message, delim);
+    printf("123123");
 
     while (ptr != NULL) {
         printf("123123'%s'\n", ptr);
