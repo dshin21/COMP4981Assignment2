@@ -22,19 +22,7 @@ int client(const int server_qid, const int client_priority, const char *client_f
         return 1;
     }
 
-//    // Place the filename and child PID into buffer
-//    memset(&mBuffer, 0, sizeof(struct msgbuf));
-//    mBuffer.mtype = CLIENT_TO_SERVER;
-//    sprintf(mBuffer.mtext, "%d %d %s", pid, p.priority, client_file_name);
-//    mBuffer.mlen = (int) strlen(mBuffer.mtext);
-//
-//    // Send the buffer
-//    if (send_message(p.qid, &mBuffer) == -1) {
-//        perror("Problem writing to the message queue");
-//    }
-
-    //    mBuffer = getMsgbuf(client_file_name, pid, &p, &mBuffer);
-    client_send_info(client_file_name, &p, p.pid, &mBuffer);
+    client_send_info(&p, &mBuffer, p.pid, client_file_name);
 
     // If the message is not full that means it is the last one
     while (running) {
@@ -64,17 +52,15 @@ int client(const int server_qid, const int client_priority, const char *client_f
     return 0;
 }
 
-void client_send_info(const char *client_file_name, struct params *p, int pid, struct msgbuf *mBuffer) {
+void client_send_info(struct params *p, struct msgbuf *mBuffer, int pid, const char *client_file_name) {
     memset(mBuffer, 0, sizeof(struct msgbuf));
     mBuffer->mtype = CLIENT_TO_SERVER;
     sprintf(mBuffer->mtext, "%d %d %s", pid, p->priority, client_file_name);
     mBuffer->mlen = (int) strlen(mBuffer->mtext);
 
-    // Send the buffer
     if (send_message(p->qid, mBuffer) == -1) {
         perror("Problem writing to the message queue");
     }
-//    return (*mBuffer);
 }
 
 void *client_control(void *params) {

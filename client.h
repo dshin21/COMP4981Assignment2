@@ -17,6 +17,6 @@ struct params {
 
 int client(int server_qid, int client_priority, const char *client_file_name);
 
-void client_send_info(const char *client_file_name, struct params *p, int pid, struct msgbuf *mBuffer);
+void client_send_info(struct params *p, struct msgbuf *mBuffer, int pid, const char *client_file_name);
 
 void *client_control(void *params);
