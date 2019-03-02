@@ -16,7 +16,7 @@ int server_entry() {
     int i;
     int main_return_val = 0;
     int pleaseQuit = 0;
-
+ 
     struct message_object s_buffer;
 
     // Exit signal
