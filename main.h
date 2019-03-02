@@ -17,3 +17,5 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 void client_entry(char *const *argv);
 
 int cli_guide();
+
+//TODO: remove all comments
