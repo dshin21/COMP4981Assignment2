@@ -6,9 +6,6 @@ int server_entry() {
     int exit_watcher = 1;
 
     // Client Info
-    int c_pid;
-    int c_priority;
-
     FILE *c_ptr_file;
     int c_file_size;
 
@@ -51,14 +48,14 @@ int server_entry() {
             continue;
         }
 
-        
+
         // Fork and serve if it is the child
         if (!fork()) {
             printf("%s", c_info.client_file_name);
             c_ptr_file = fopen(c_info.client_file_name, "r");
 
             if (c_ptr_file == NULL) {
-                s_buffer.mtype = c_pid;
+                s_buffer.mtype = c_info.client_pid;
                 strcpy(s_buffer.mtext, "Error: Could not open file");
                 s_buffer.mlen = 27;
 
@@ -71,11 +68,11 @@ int server_entry() {
             }
 
             printf("%d> child started\n", getpid());
-            s_buffer.mtype = c_pid;
+            s_buffer.mtype = c_info.client_pid;
 
             while (!feof(c_ptr_file)) {
                 P(semaphore_id);
-                for (i = 0; i < c_priority; i++) {
+                for (i = 0; i < c_info.client_priority; i++) {
                     c_file_size = (int) read_file(c_ptr_file, &s_buffer);
 
                     if (c_file_size == 0) {
