@@ -175,23 +175,8 @@ void parseClientRequest(const char *message, int *pid, int *priority, char *file
         ptr = strtok(NULL, delim);
     }
 
-//    strcpy(tmp, message);
-//    pidStart = tmp;
-//
-//    for (i = 0; tmp[i]; i++) {
-//
-//        if (count == 0 && tmp[i] == ' ') {
-//            tmp[i] = '\0';
-//            priorityStart = tmp + i + 1;
-//            count++;
-//        }
-//        if (count == 1 && tmp[i] == ' ') {
-//            tmp[i] = '\0';
-//            fileStart = tmp + i + 1;
-//            count++;
-//        }
-//    }
     *pid = atoi(str[0]);
     *priority = atoi(str[1]);
+    printf("hi\n", ptr);
     memcpy(filename, str[2], strlen(str[2]));
 }
