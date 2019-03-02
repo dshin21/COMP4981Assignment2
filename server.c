@@ -36,6 +36,7 @@ int server_entry() {
         printf("\nCommand for client: ./MessageQueueApp client %d [S|M|L] <filename>\n", server_qid);
         fflush(stdout);
     }
+    
 
     // create semaphore
     if ((semaphore_id = create_semaphore((int) getpid())) < 0) {
