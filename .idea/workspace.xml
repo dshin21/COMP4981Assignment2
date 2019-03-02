@@ -71,8 +71,8 @@
           <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/server.c">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="178">
-                  <caret line="163" column="23" selection-start-line="163" selection-start-column="23" selection-end-line="163" selection-end-column="23" />
+                <state relative-caret-position="416">
+                  <caret line="160" column="22" selection-start-line="160" selection-start-column="22" selection-end-line="160" selection-end-column="22" />
                 </state>
               </provider>
             </entry>
@@ -261,12 +261,12 @@
       <workItem from="1551349179539" duration="2182000" />
       <workItem from="1551353261516" duration="193000" />
       <workItem from="1551354588734" duration="15991000" />
-      <workItem from="1551495083491" duration="5185000" />
+      <workItem from="1551495083491" duration="5353000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36424000" />
+    <option name="totallyTimeSpent" value="36592000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -281,8 +281,8 @@
     <frame x="56" y="-8" width="2512" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5805763" visible="true" weight="0.09339315" />
-      <window_info id="Structure" order="1" sideWeight="0.4194237" side_tool="true" visible="true" weight="0.09339315" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5808147" visible="true" weight="0.09339315" />
+      <window_info id="Structure" order="1" sideWeight="0.41918528" side_tool="true" visible="true" weight="0.09339315" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32870865" />
@@ -293,7 +293,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32977587" />
       <window_info anchor="bottom" id="Database Changes" order="7" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.3297414" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.18783352" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.18783352" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="11" weight="0.3297414" />
       <window_info anchor="bottom" id="CMake" order="12" />
@@ -467,8 +467,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="163" column="23" selection-start-line="163" selection-start-column="23" selection-end-line="163" selection-end-column="23" />
+        <state relative-caret-position="416">
+          <caret line="160" column="22" selection-start-line="160" selection-start-column="22" selection-end-line="160" selection-end-column="22" />
         </state>
       </provider>
     </entry>

@@ -153,40 +153,15 @@ int acceptClients(struct client_info *c_info) {
 }
 
 void parseClientRequest(const char *message, int *pid, int *priority, char *filename) {
-    int i;
-    int count = 0;
-    char tmp[MSGSIZE];
-//    char *fileStart = NULL;
-//    char *pidStart = NULL;
-//    char *priorityStart = NULL;
-
     char str[] = "";
     char delim[] = " ";
-//    int init_size = (int) strlen(message);
-
     char *ptr = strtok(message, delim);
 
     while (ptr != NULL) {
-        printf("'%s'\n", ptr);
+        printf("123123'%s'\n", ptr);
         ptr = strtok(NULL, delim);
     }
 
-//    strcpy(tmp, message);
-//    pidStart = tmp;
-//
-//    for (i = 0; tmp[i]; i++) {
-//
-//        if (count == 0 && tmp[i] == ' ') {
-//            tmp[i] = '\0';
-//            priorityStart = tmp + i + 1;
-//            count++;
-//        }
-//        if (count == 1 && tmp[i] == ' ') {
-//            tmp[i] = '\0';
-//            fileStart = tmp + i + 1;
-//            count++;
-//        }
-//    }
     *pid = atoi(str[0]);
     *priority = atoi(str[1]);
     memcpy(filename, str[2], strlen(str[2]));
