@@ -4,28 +4,27 @@ pthread_mutex_t mutex;
 
 int client(const int server_qid, const int client_priority, const char *client_file_name) {
     pthread_t controlThread;
-    int pid;
-    int running = 1;
-    struct params p;
+    int thread_status = 1;
+    struct client_info c_info;
     struct msgbuf mBuffer;
 
     // Start thread to check if program should stop running
-    p.pRunning = &running;
-    p.qid = server_qid;
-    p.pid = (int) getpid();
-    p.priority = client_priority;
+    c_info.client_thread_status = &thread_status;
+    c_info.client_qid = server_qid;
+    c_info.client_pid = (int) getpid();
+    c_info.client_priority = client_priority;
 
-    if (pthread_create(&controlThread, NULL, client_control, (void *) &p)) {
+    if (pthread_create(&controlThread, NULL, client_control, (void *) &c_info)) {
         perror("Could not start thread");
         return 1;
     }
 
-    client_send_info(&p, &mBuffer, p.pid, client_file_name);
+    client_send_info(&c_info, &mBuffer, c_info.client_pid, client_file_name);
 
     // If the message is not full that means it is the last one
-    while (running) {
+    while (thread_status) {
         memset(&mBuffer, 0, sizeof(struct msgbuf));
-        if (read_message_blocking(server_qid, p.pid, &mBuffer) <= 0) {
+        if (read_message_blocking(server_qid, c_info.client_pid, &mBuffer) <= 0) {
             sched_yield();
             continue;
         }
@@ -50,23 +49,22 @@ int client(const int server_qid, const int client_priority, const char *client_f
     return 0;
 }
 
-void client_send_info(struct params *p, struct msgbuf *mBuffer, int pid, const char *client_file_name) {
+void client_send_info(struct client_info *p, struct msgbuf *mBuffer, int pid, const char *client_file_name) {
     memset(mBuffer, 0, sizeof(struct msgbuf));
     mBuffer->mtype = CLIENT_TO_SERVER;
-    sprintf(mBuffer->mtext, "%d %d %s", pid, p->priority, client_file_name);
+    sprintf(mBuffer->mtext, "%d %d %s", pid, p->client_priority, client_file_name);
     mBuffer->mlen = (int) strlen(mBuffer->mtext);
 
-    if (send_message(p->qid, mBuffer) == -1) {
+    if (send_message(p->client_qid, mBuffer) == -1) {
         perror("Error: writing to message queue");
-
     }
 }
 
 void *client_control(void *params) {
     char line[MSGSIZE];
     char command[MSGSIZE];
-    struct params *p = params;
-    int *pRunning = p->pRunning;
+    struct client_info *p = params;
+    int *pRunning = p->client_thread_status;
 
     while (*pRunning) {
         if (fgets(line, MSGSIZE, stdin)) {
