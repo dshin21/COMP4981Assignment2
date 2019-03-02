@@ -4,12 +4,12 @@ pthread_mutex_t mutex;
 
 int client(const int server_qid, const int client_priority, const char *client_file_name) {
     pthread_t controlThread;
-    int thread_status = 1;
+//    int thread_status = 1;
     struct client_info c_info;
     struct message_object msg_obj;
 
     // Start thread to check if program should stop running
-    c_info.client_thread_status = &thread_status;
+    c_info.client_thread_status = 1;
     c_info.client_qid = server_qid;
     c_info.client_pid = (int) getpid();
     c_info.client_priority = client_priority;
@@ -22,7 +22,7 @@ int client(const int server_qid, const int client_priority, const char *client_f
     client_send_info(&c_info, &msg_obj, c_info.client_pid, client_file_name);
 
     // If the message is not full that means it is the last one
-    while (thread_status) {
+    while (c_info.client_thread_status) {
         memset(&msg_obj, 0, sizeof(struct message_object));
         if (read_message(server_qid, c_info.client_pid, &msg_obj, BLOCKING) <= 0) {
             sched_yield();
@@ -64,7 +64,7 @@ void *client_control(void *params) {
     char line[MSGSIZE];
     char command[MSGSIZE];
     struct client_info *p = params;
-    int *pRunning = p->client_thread_status;
+    int *pRunning = &p->client_thread_status;
 
     while (*pRunning) {
         if (fgets(line, MSGSIZE, stdin)) {

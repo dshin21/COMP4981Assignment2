@@ -12,6 +12,8 @@ int server_entry() {
 
     struct message_object s_buffer;
     struct client_info c_info;
+    memset(&c_info, 0, sizeof(struct client_info));
+
 
     // Exit signal
     signal(SIGINT, abort_cleanup);
@@ -45,11 +47,11 @@ int server_entry() {
             sched_yield();
             continue;
         }
-
-
+        printf("%s", c_info.client_file_name);
         // Fork and serve if it is the child
         if (!fork()) {
             printf("%s", c_info.client_file_name);
+            printf("forked");
             c_info.client_ptr_file = fopen(c_info.client_file_name, "r");
 
             if (c_info.client_ptr_file == NULL) {
@@ -141,43 +143,31 @@ void abort_cleanup(int code) {
 int acceptClients(struct client_info *c_info) {
     struct message_object buffer;
     memset(&buffer, 0, sizeof(struct message_object));
-    memset(&buffer, 0, sizeof(struct client_info));
 
     // If a new client is found...
     if (read_message(server_qid, CLIENT_TO_SERVER, &buffer, BLOCKING) > 0) {
         printf("New Client - %s\n", buffer.mtext);
 
-
         // Grab the filename and pid
-        memset(c_info->client_file_name, 0, MSGSIZE);
+//        memset(c_info->client_file_name, 0, MSGSIZE);
         parseClientRequest(buffer.mtext, &c_info->client_pid, &c_info->client_priority, c_info->client_file_name);
-        printf("New Client - %s\n", buffer.mtext);
+        printf("%d %d %s\n", c_info->client_pid, c_info->client_priority, c_info->client_file_name);
+        printf("end of accept\n");
         return 1;
     }
     return 0;
 }
 
 void parseClientRequest(const char *message, int *pid, int *priority, char *filename) {
-    int i;
-    int count = 0;
     char tmp[MSGSIZE];
-//    char *fileStart = NULL;
-//    char *pidStart = NULL;
-//    char *priorityStart = NULL;
+    strcpy(tmp, message);
 
-    char str[] = "";
-    char delim[] = " ";
-//    int init_size = (int) strlen(message);
+    char *ptr = strtok(tmp, " ");
+    *pid = atoi(ptr);
 
-    char *ptr = strtok(message, delim);
+    ptr = strtok(NULL, " ");
+    *priority = atoi(ptr);
 
-    while (ptr != NULL) {
-        printf("'%s'\n", ptr);
-        ptr = strtok(NULL, delim);
-    }
-
-    *pid = atoi(str[0]);
-    *priority = atoi(str[1]);
-    printf("hi\n", ptr);
-    memcpy(filename, str[2], strlen(str[2]));
+    ptr = strtok(NULL, " ");
+    memcpy(filename, ptr, strlen(ptr) + 1);
 }

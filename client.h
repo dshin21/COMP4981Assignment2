@@ -9,13 +9,13 @@
 #include "threads.h"
 
 struct client_info {
-    int *client_thread_status;
+    int client_thread_status;
     int client_qid;
     int client_pid;
     int client_priority;
     FILE *client_ptr_file;
     int client_file_size;
-    char client_file_name[];
+    char client_file_name[MSGSIZE];
 };
 
 int client(int server_qid, int client_priority, const char *client_file_name);

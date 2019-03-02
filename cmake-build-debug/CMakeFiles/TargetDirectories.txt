@@ -1,3 +1,0 @@
-/cygdrive/d/COMP4981_asn2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cygdrive/d/COMP4981_asn2/cmake-build-debug/CMakeFiles/COMP4981_asn2_test.dir
-/cygdrive/d/COMP4981_asn2/cmake-build-debug/CMakeFiles/edit_cache.dir
