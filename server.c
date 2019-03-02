@@ -135,13 +135,13 @@ void abort_cleanup(int code) {
     exit(0);
 }
 
-
 int acceptClients(struct client_info *c_info) {
     struct message_object buffer;
     memset(&buffer, 0, sizeof(struct message_object));
 
     // If a new client is found...
     if (read_message(server_qid, CLIENT_TO_SERVER, &buffer, BLOCKING) > 0) {
+        printf("New Client - %s\n", buffer.mtext);
         printf("New Client - %s\n", buffer.mtext);
 
         // Grab the filename and pid
