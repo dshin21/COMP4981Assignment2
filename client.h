@@ -13,6 +13,7 @@ struct client_info {
     int client_qid;
     int client_pid;
     int client_priority;
+    char client_file_name[];
 };
 
 int client(int server_qid, int client_priority, const char *client_file_name);
