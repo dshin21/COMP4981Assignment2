@@ -138,8 +138,6 @@ void abort_cleanup(int code) {
 
 int acceptClients(struct client_info *c_info) {
     struct message_object buffer;
-//    char c_filename[MSGSIZE];
-
     memset(&buffer, 0, sizeof(struct message_object));
 
     // If a new client is found...
@@ -158,28 +156,38 @@ void parseClientRequest(const char *message, int *pid, int *priority, char *file
     int i;
     int count = 0;
     char tmp[MSGSIZE];
-    char *fileStart = NULL;
-    char *pidStart = NULL;
-    char *priorityStart = NULL;
+//    char *fileStart = NULL;
+//    char *pidStart = NULL;
+//    char *priorityStart = NULL;
 
-    strcpy(tmp, message);
-    pidStart = tmp;
+    char str[] = "";
+    char delim[] = " ";
+//    int init_size = (int) strlen(message);
 
-    for (i = 0; tmp[i]; i++) {
+    char *ptr = strtok(message, delim);
 
-        if (count == 0 && tmp[i] == ' ') {
-            tmp[i] = '\0';
-            priorityStart = tmp + i + 1;
-            count++;
-        }
-        if (count == 1 && tmp[i] == ' ') {
-            tmp[i] = '\0';
-            fileStart = tmp + i + 1;
-            count++;
-        }
-
+    while (ptr != NULL) {
+        printf("'%s'\n", ptr);
+        ptr = strtok(NULL, delim);
     }
-    *pid = atoi(pidStart);
-    *priority = atoi(priorityStart);
-    memcpy(filename, fileStart, strlen(fileStart));
+
+//    strcpy(tmp, message);
+//    pidStart = tmp;
+//
+//    for (i = 0; tmp[i]; i++) {
+//
+//        if (count == 0 && tmp[i] == ' ') {
+//            tmp[i] = '\0';
+//            priorityStart = tmp + i + 1;
+//            count++;
+//        }
+//        if (count == 1 && tmp[i] == ' ') {
+//            tmp[i] = '\0';
+//            fileStart = tmp + i + 1;
+//            count++;
+//        }
+//    }
+    *pid = atoi(str[0]);
+    *priority = atoi(str[1]);
+    memcpy(filename, str[2], strlen(str[2]));
 }
