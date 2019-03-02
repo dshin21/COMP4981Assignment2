@@ -31,6 +31,7 @@ int server_entry() {
         fflush(stdout);
     }
 
+
     // create semaphore
     if ((semaphore_id = create_semaphore((int) getpid())) < 0) {
         perror("Error: creating semaphore");
@@ -44,6 +45,7 @@ int server_entry() {
             sched_yield();
             continue;
         }
+
 
         // Fork and serve if it is the child
         if (!fork()) {
@@ -117,10 +119,11 @@ int server_entry() {
 
 void *exit_handler(void *exit_watcher) {
     int *pRunning = (int *) exit_watcher;
+    char temp[128];
     char user_input[128];
 
     while (*pRunning) {
-        if (fgets(user_input, 128, stdin) && !strcmp(user_input, "s")) {
+        if (fgets(temp, 128, stdin) && sscanf(temp, "%s", user_input) == 1 && !strcmp(user_input, "s")) {
             kill(0, SIGINT);
             *pRunning = 0;
         }
@@ -147,6 +150,7 @@ int acceptClients(struct client_info *c_info) {
         // Grab the filename and pid
         memset(c_info->client_file_name, 0, MSGSIZE);
         parseClientRequest(buffer.mtext, &c_info->client_pid, &c_info->client_priority, c_info->client_file_name);
+
         return 1;
     }
     return 0;
