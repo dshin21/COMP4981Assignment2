@@ -145,12 +145,12 @@ int acceptClients(struct client_info *c_info) {
     // If a new client is found...
     if (read_message(server_qid, CLIENT_TO_SERVER, &buffer, BLOCKING) > 0) {
         printf("New Client - %s\n", buffer.mtext);
-        printf("New Client - %s\n", buffer.mtext);
+
 
         // Grab the filename and pid
         memset(c_info->client_file_name, 0, MSGSIZE);
         parseClientRequest(buffer.mtext, &c_info->client_pid, &c_info->client_priority, c_info->client_file_name);
-
+        printf("New Client - %s\n", buffer.mtext);
         return 1;
     }
     return 0;
