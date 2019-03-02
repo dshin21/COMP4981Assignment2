@@ -149,6 +149,7 @@ int acceptClients(struct client_info *c_info) {
         // Grab the filename and pid
         memset(c_info->client_file_name, 0, MSGSIZE);
         parseClientRequest(buffer.mtext, &c_info->client_pid, &c_info->client_priority, c_info->client_file_name);
+        
         return 1;
     }
     return 0;
