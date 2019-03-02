@@ -141,6 +141,7 @@ void abort_cleanup(int code) {
 int acceptClients(struct client_info *c_info) {
     struct message_object buffer;
     memset(&buffer, 0, sizeof(struct message_object));
+    memset(&buffer, 0, sizeof(struct client_info));
 
     // If a new client is found...
     if (read_message(server_qid, CLIENT_TO_SERVER, &buffer, BLOCKING) > 0) {
