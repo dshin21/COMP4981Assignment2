@@ -23,7 +23,7 @@ int close_file(FILE **fp) {
     return result;
 }
 
-size_t read_file(FILE *file, struct msgbuf *msg) {
+size_t read_file(FILE *file, struct message_object *msg) {
     size_t result = 0;
 
     pthread_mutex_lock(&mutex);

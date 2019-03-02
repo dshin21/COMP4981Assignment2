@@ -6,7 +6,7 @@ int client(const int server_qid, const int client_priority, const char *client_f
     pthread_t controlThread;
     int thread_status = 1;
     struct client_info c_info;
-    struct msgbuf mBuffer;
+    struct message_object msg_obj;
 
     // Start thread to check if program should stop running
     c_info.client_thread_status = &thread_status;
@@ -19,38 +19,38 @@ int client(const int server_qid, const int client_priority, const char *client_f
         return 1;
     }
 
-    client_send_info(&c_info, &mBuffer, c_info.client_pid, client_file_name);
+    client_send_info(&c_info, &msg_obj, c_info.client_pid, client_file_name);
 
     // If the message is not full that means it is the last one
     while (thread_status) {
-        memset(&mBuffer, 0, sizeof(struct msgbuf));
-        if (read_message_blocking(server_qid, c_info.client_pid, &mBuffer) <= 0) {
+        memset(&msg_obj, 0, sizeof(struct message_object));
+        if (read_message(server_qid, c_info.client_pid, &msg_obj, BLOCKING) <= 0) {
             sched_yield();
             continue;
         }
 
         // Check if the server returned an error opening the file
-        if (!strcmp(mBuffer.mtext, "Error: Could not open file")) {
+        if (!strcmp(msg_obj.mtext, "Error: Could not open file")) {
             // If it did, print the error and return
-            printf("%s\n", mBuffer.mtext);
+            printf("%s\n", msg_obj.mtext);
             fflush(stdout);
         } else {
             // Otherwise, print the first part of the file
-            printf("%s", mBuffer.mtext);
+            printf("%s", msg_obj.mtext);
             fflush(stdout);
         }
     }
 
     // Print the last message
-    printf("%s", mBuffer.mtext);
+    printf("%s", msg_obj.mtext);
     fflush(stdout);
 
     pthread_join(controlThread, 0);
     return 0;
 }
 
-void client_send_info(struct client_info *p, struct msgbuf *mBuffer, int pid, const char *client_file_name) {
-    memset(mBuffer, 0, sizeof(struct msgbuf));
+void client_send_info(struct client_info *p, struct message_object *mBuffer, int pid, const char *client_file_name) {
+    memset(mBuffer, 0, sizeof(struct message_object));
     mBuffer->mtype = CLIENT_TO_SERVER;
     sprintf(mBuffer->mtext, "%d %d %s", pid, p->client_priority, client_file_name);
     mBuffer->mlen = (int) strlen(mBuffer->mtext);

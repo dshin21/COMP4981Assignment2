@@ -13,4 +13,4 @@ int close_file(FILE **fp);
 
 //int close_file_unsafe(FILE **fp);
 
-size_t read_file(FILE *file, struct msgbuf *msg);
+size_t read_file(FILE *file, struct message_object *msg);

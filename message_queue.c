@@ -28,7 +28,7 @@ int queue_open(const key_t keyval) {
  * @return: T: # bytes written to the msg Q
  *          F: -1
  */
-int send_message(const int msg_qid, struct msgbuf *qbuf) {
+int send_message(const int msg_qid, struct message_object *qbuf) {
     int result;
     result = msgsnd(msg_qid, qbuf, qbuf->mlen, 0);  //writes to msg Q w/ blocking call
     return result;
@@ -47,16 +47,12 @@ int send_message(const int msg_qid, struct msgbuf *qbuf) {
  * @return: T: # bytes written to the mtext(msgbuf)
  *          F: -1
  */
-int read_message(const int qid, const long type, struct msgbuf *qbuf) {
+int read_message(const int qid, const long type, struct message_object *qbuf, int read_type) {
+    int r_type = 0;
+    if (read_type == BLOCKING) r_type = 0;
+    if (read_type == NONBLOCKING) r_type = IPC_NOWAIT;
     int result;
-    result = (int) msgrcv(qid, qbuf, MSGSIZE, type, IPC_NOWAIT);  //reads from msg Q w/ non-blocking call
-    qbuf->mlen = result;
-    return result;
-}
-
-int read_message_blocking(const int qid, const long type, struct msgbuf *qbuf) {
-    int result;
-    result = (int) msgrcv(qid, qbuf, MSGSIZE, type, 0); //reads from msg Q w/ blocking call
+    result = (int) msgrcv(qid, qbuf, MSGSIZE, type, r_type);
     qbuf->mlen = result;
     return result;
 }

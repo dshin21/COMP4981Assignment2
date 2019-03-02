@@ -17,7 +17,7 @@ int server_entry() {
     int main_return_val = 0;
     int pleaseQuit = 0;
 
-    struct msgbuf s_buffer;
+    struct message_object s_buffer;
 
     // Exit signal
     signal(SIGINT, abort_cleanup);
@@ -150,11 +150,11 @@ void abort_cleanup(int code) {
 }
 
 int acceptClients(int *pPid, int *pPriority, char *filename) {
-    struct msgbuf buffer;
-    memset(&buffer, 0, sizeof(struct msgbuf));
+    struct message_object buffer;
+    memset(&buffer, 0, sizeof(struct message_object));
 
     // If a new client is found...
-    if (read_message_blocking(server_qid, CLIENT_TO_SERVER, &buffer) > 0) {
+    if (read_message(server_qid, CLIENT_TO_SERVER, &buffer, BLOCKING) > 0) {
         printf("New Client - %s\n", buffer.mtext);
 
         // Grab the filename and pid
