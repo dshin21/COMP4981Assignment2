@@ -18,7 +18,7 @@ static int semaphore_id;
 
 int server_entry();
 
-void *server_control(void *params);
+void *exit_handler(void *exit_watcher);
 
 void abort_cleanup(int code);
 

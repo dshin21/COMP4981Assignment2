@@ -6,7 +6,6 @@ int server_entry() {
     int exit_watcher = 1;
 
     // Client Info
-
     int i;
     int main_return_val = 0;
     int pleaseQuit = 0;
@@ -18,7 +17,7 @@ int server_entry() {
     signal(SIGINT, abort_cleanup);
 
     // Start thread to check if program should stop running
-    if (pthread_create(&thread_exit_watcher, NULL, server_control, &exit_watcher)) {
+    if (pthread_create(&thread_exit_watcher, NULL, exit_handler, &exit_watcher)) {
         perror("Error: creating thread");
         return 1;
     }
@@ -116,21 +115,16 @@ int server_entry() {
     return 0;
 }
 
-void *server_control(void *params) {
-    char line[256];
-    char command[256];
-    int *pRunning = (int *) params;
+void *exit_handler(void *exit_watcher) {
+    int *pRunning = (int *) exit_watcher;
+    char user_input[128];
+    char command[128];
 
-    while (*pRunning) {
-        if (fgets(line, 256, stdin)) {
-            if (sscanf(line, "%s", command) == 1) {
-                if (!strcmp(command, "quit") ||
-                    !strcmp(command, "stop") ||
-                    !strcmp(command, "q") ||
-                    !strcmp(command, "s")) {
-                    kill(0, SIGINT);
-                    *pRunning = 0;
-                }
+    while (*pRunning) {//&& sscanf(user_input, "%s", command) == 1
+        if (fgets(user_input, 128, stdin)) {
+            if (!strcmp(user_input, "s")) {
+                kill(0, SIGINT);
+                *pRunning = 0;
             }
         }
         sched_yield();
