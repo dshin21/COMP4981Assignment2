@@ -118,14 +118,11 @@ int server_entry() {
 void *exit_handler(void *exit_watcher) {
     int *pRunning = (int *) exit_watcher;
     char user_input[128];
-    char command[128];
 
-    while (*pRunning) {//&& sscanf(user_input, "%s", command) == 1
-        if (fgets(user_input, 128, stdin)) {
-            if (!strcmp(user_input, "s")) {
-                kill(0, SIGINT);
-                *pRunning = 0;
-            }
+    while (*pRunning) {
+        if (fgets(user_input, 128, stdin) && !strcmp(user_input, "s")) {
+            kill(0, SIGINT);
+            *pRunning = 0;
         }
         sched_yield();
     }
