@@ -1,14 +1,15 @@
 #include "server.h"
 
+int server_send_file_to_client(struct message_object *s_buffer, struct client_info *c_info);
+
 int server_entry() {
     // Threading variable
     pthread_t thread_exit_watcher;
     int exit_watcher = 1;
 
     // Client Info
-    int i;
+//    int i;
     int main_return_val = 0;
-    int pleaseQuit = 0;
 
     struct message_object s_buffer;
     struct client_info c_info;
@@ -48,7 +49,7 @@ int server_entry() {
 
         // Fork and serve if it is the child
         if (!fork()) {
-            printf("forked\n");
+            printf("forked %d\n", getpid());
             c_info.client_ptr_file = open_file(c_info.client_file_name, "r");
 
             if (c_info.client_ptr_file == NULL) {
@@ -57,40 +58,7 @@ int server_entry() {
             }
 
             printf("child started PID: %d\n", getpid());
-            s_buffer.mtype = c_info.client_pid;
-
-            while (!feof(c_info.client_ptr_file)) {
-                P(semaphore_id);
-                for (i = 0; i < c_info.client_priority; i++) {
-                    c_info.client_file_size = (int) read_file(c_info.client_ptr_file, &s_buffer);
-
-                    if (c_info.client_file_size == 0) {
-                        main_return_val = 0;
-                        pleaseQuit = 1;
-                    }
-
-                    if (c_info.client_file_size < 0) {
-                        perror("Problem reading from file");
-                        main_return_val = pleaseQuit = 1;
-                    }
-
-                    if (send_message(server_qid, &s_buffer) == -1) {
-                        perror("Problem sending message");
-                        main_return_val = pleaseQuit = 1;
-                    }
-                }
-
-                V(semaphore_id);
-
-                sched_yield();
-
-                if (pleaseQuit) {
-                    break;
-                }
-            }
-
-            printf("%d> child is finished and exiting\n", getpid());
-            return main_return_val;
+            return server_send_file_to_client(&s_buffer, &c_info);;
         }
     }
 
@@ -106,6 +74,43 @@ int server_entry() {
 
     pthread_join(thread_exit_watcher, 0);
     return 0;
+}
+
+int server_send_file_to_client(struct message_object *s_buffer, struct client_info *c_info) {
+    int return_val = 0;
+    int i;
+    s_buffer->mtype = c_info->client_pid;
+
+    while (!feof((*c_info).client_ptr_file)) {
+        P(semaphore_id);
+        for (i = 0; i < (*c_info).client_priority; i++) {
+            (*c_info).client_file_size = (int) read_file((*c_info).client_ptr_file, s_buffer);
+
+            if ((*c_info).client_file_size == 0) {
+                return_val = 0;
+            }
+
+            if ((*c_info).client_file_size < 0) {
+                perror("Error: Reading from file");
+                return_val = 1;
+            }
+
+            if (send_message(server_qid, s_buffer) == -1) {
+                perror("Error: Sending message");
+                return_val = 1;
+            }
+        }
+
+        V(semaphore_id);
+
+        sched_yield();
+
+        if (return_val) {
+            break;
+        }
+    }
+    printf("%d> child is finished and exiting\n", getpid());
+    return return_val;
 }
 
 void server_send_error_msg_to_client(struct message_object *s_buffer, struct client_info *c_info) {
