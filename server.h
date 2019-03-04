@@ -18,12 +18,14 @@ static int semaphore_id;
 
 int server_entry();
 
-void *exit_handler(void *exit_watcher);
+void *server_exit_handler(void *exit_watcher);
 
-void abort_cleanup(int code);
+void server_exit_cleanup(int code);
 
-int acceptClients(struct client_info *c_info);
+int server_accept_client(struct client_info *c_info);
 
-void server_send_error_msg_to_client(struct message_object *s_buffer, struct client_info *c_info);
+int server_send_file_to_client(struct message_object *s_buffer, struct client_info *c_info);
 
-void parseClientRequest(const char *message, int *pid, int *priority, char *filename);
+int server_send_err_msg(struct message_object *s_buffer, struct client_info *c_info);
+
+void server_get_client_info(const char *message, int *pid, int *priority, char *filename);
