@@ -57,7 +57,6 @@ int server_entry() {
                 return 0;
             }
 
-            printf("child started PID: %d\n", getpid());
             return server_send_file_to_client(&s_buffer, &c_info);;
         }
     }
@@ -78,11 +77,13 @@ int server_entry() {
 
 int server_send_file_to_client(struct message_object *s_buffer, struct client_info *c_info) {
     int return_val = 0;
-    int i;
     s_buffer->mtype = c_info->client_pid;
+
+    printf("child started PID: %d\n", getpid());
 
     while (!feof((*c_info).client_ptr_file)) {
         P(semaphore_id);
+        int i;
         for (i = 0; i < (*c_info).client_priority; i++) {
             (*c_info).client_file_size = (int) read_file((*c_info).client_ptr_file, s_buffer);
 
