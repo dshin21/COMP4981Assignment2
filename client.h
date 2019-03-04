@@ -3,11 +3,11 @@
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
+#include <pthread.h>
 #include <unistd.h>
 
 #include "files.h"
 #include "message_queue.h"
-#include "threads.h"
 
 struct client_info {
     int client_thread_status;
@@ -19,9 +19,9 @@ struct client_info {
     char client_file_name[MSGSIZE];
 };
 
-int client(int server_qid, int client_priority, const char *client_file_name);
+int client(int s_qid, int c_priority, const char *c_file_name);
 
-void client_send_info(struct client_info *p, struct message_object *mBuffer, int pid, const char *client_file_name);
+void client_send_info(struct client_info *c_info, struct message_object *mBuffer, int c_pid, const char *c_file_name);
 
-void *client_control(void *params);
+void *client_exit_handler(void *c_info);
 

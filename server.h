@@ -6,8 +6,8 @@
 #include <string.h>
 #include <signal.h>
 #include <errno.h>
+#include <pthread.h>
 
-#include "threads.h"
 #include "message_queue.h"
 #include "semaphore.h"
 #include "files.h"

@@ -2,7 +2,7 @@ CC=gcc
 CFLAGS=-Wall -ggdb
 
 MessageQueueApp: main.o message_queue.o files.o server.o client.o semaphore.o
-	$(CC) $(CFLAGS) main.o message_queue.o files.o server.o client.o semaphore.o threads.h -o MessageQueueApp -lpthread
+	$(CC) $(CFLAGS) main.o message_queue.o files.o server.o client.o semaphore.o -o MessageQueueApp -lpthread
 
 clean:
 	rm -f *.o *.bak MessageQueueApp

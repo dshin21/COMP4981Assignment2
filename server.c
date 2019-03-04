@@ -48,29 +48,29 @@ int server_entry() {
 }
 
 int server_send_file_to_client(struct message_object *s_buffer, struct client_info *c_info) {
-    int return_val = 0;
+    int ret_val = 0;
     s_buffer->mtype = c_info->client_pid;
 
     printf("child started PID: %d\n", getpid());
 
-    while (!feof((*c_info).client_ptr_file)) {
+    while (!feof(c_info->client_ptr_file)) {
         P(semaphore_id);
         int i;
-        for (i = 0; i < (*c_info).client_priority; i++) {
-            (*c_info).client_file_size = (int) read_file((*c_info).client_ptr_file, s_buffer);
+        for (i = 0; i < c_info->client_priority; i++) {
+            c_info->client_file_size = (int) read_file(c_info->client_ptr_file, s_buffer);
 
-            if ((*c_info).client_file_size == 0) {
-                return_val = 0;
+            if (c_info->client_file_size == 0) {
+                ret_val = 0;
             }
 
-            if ((*c_info).client_file_size < 0) {
+            if (c_info->client_file_size < 0) {
                 perror("Error: Reading from file");
-                return_val = 1;
+                ret_val = 1;
             }
 
             if (send_message(server_qid, s_buffer) == -1) {
                 perror("Error: Sending message");
-                return_val = 1;
+                ret_val = 1;
             }
         }
 
@@ -78,12 +78,13 @@ int server_send_file_to_client(struct message_object *s_buffer, struct client_in
 
         sched_yield();
 
-        if (return_val) {
+        if (ret_val) {
             break;
         }
     }
+    close_file(c_info->client_ptr_file);
     printf("%d> child is finished and exiting\n", getpid());
-    return return_val;
+    return ret_val;
 }
 
 int server_send_err_msg(struct message_object *s_buffer, struct client_info *c_info) {
@@ -99,14 +100,14 @@ int server_send_err_msg(struct message_object *s_buffer, struct client_info *c_i
 }
 
 void *server_exit_handler(void *exit_watcher) {
-    int *pRunning = (int *) exit_watcher;
+    int *is_running = (int *) exit_watcher;
     char temp[128];
     char user_input[128];
 
-    while (*pRunning) {
+    while (*is_running) {
         if (fgets(temp, 128, stdin) && sscanf(temp, "%s", user_input) == 1 && !strcmp(user_input, "s")) {
             kill(0, SIGINT);
-            *pRunning = 0;
+            *is_running = 0;
         }
         sched_yield();
     }

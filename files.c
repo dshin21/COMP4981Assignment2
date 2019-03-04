@@ -2,38 +2,33 @@
 
 pthread_mutex_t mutex;
 
-FILE *open_file(const char *filename, const char *flags) {
+FILE *open_file(const char *filename, const char *flag) {
     FILE *fp;
     pthread_mutex_lock(&mutex);
-    fp = fopen(filename, flags);
+    fp = fopen(filename, flag);
     pthread_mutex_unlock(&mutex);
     return fp;
 }
 
-int close_file(FILE **fp) {
-    int result = -1;
+int close_file(FILE *fp) {
+    int temp = -1;
     pthread_mutex_lock(&mutex);
-    if (*fp != NULL) {
-        result = fclose(*fp);
-        if (!result) {
-            *fp = NULL;
-        }
-    }
+    if (fp) temp = fclose(fp);
     pthread_mutex_unlock(&mutex);
-    return result;
+    return temp;
 }
 
-size_t read_file(FILE *file, struct message_object *msg) {
-    size_t result = 0;
+size_t read_file(FILE *fp, struct message_object *message_obj) {
+    size_t size = 0;
 
     pthread_mutex_lock(&mutex);
-    if (file != NULL) {
-        memset(msg->mtext, 0, sizeof(char) * MSGSIZE);
-        result = fread(msg->mtext, sizeof(char), MSGSIZE - 1, file);
-        msg->mtext[result] = '\0';
-        msg->mlen = (int) (result + 1);
+    if (fp) {
+        memset(message_obj->mtext, 0, sizeof(char) * MSGSIZE);
+        size = fread(message_obj->mtext, sizeof(char), MSGSIZE - 1, fp);
+        message_obj->mtext[size] = '\0';
+        message_obj->mlen = (int) (size + 1);
     }
     pthread_mutex_unlock(&mutex);
 
-    return result;
+    return size;
 }

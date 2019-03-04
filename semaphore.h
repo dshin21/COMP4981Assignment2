@@ -1,9 +1,9 @@
 #pragma once
 
 #include <stdio.h>
-#include <sys/types.h>  // includes definitions for types
-#include <sys/ipc.h>    // inter-process communication access structure
-#include <sys/sem.h>    // semaphore facility
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
 
 int create_semaphore(key_t key);
 
