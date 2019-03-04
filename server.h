@@ -24,4 +24,6 @@ void abort_cleanup(int code);
 
 int acceptClients(struct client_info *c_info);
 
+void server_send_error_msg_to_client(struct message_object *s_buffer, struct client_info *c_info);
+
 void parseClientRequest(const char *message, int *pid, int *priority, char *filename);

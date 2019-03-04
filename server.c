@@ -14,7 +14,6 @@ int server_entry() {
     struct client_info c_info;
     memset(&c_info, 0, sizeof(struct client_info));
 
-
     // Exit signal
     signal(SIGINT, abort_cleanup);
 
@@ -33,7 +32,6 @@ int server_entry() {
         fflush(stdout);
     }
 
-
     // create semaphore
     if ((semaphore_id = create_semaphore((int) getpid())) < 0) {
         perror("Error: creating semaphore");
@@ -50,20 +48,11 @@ int server_entry() {
 
         // Fork and serve if it is the child
         if (!fork()) {
-//            printf("%s", c_info.client_file_name);
             printf("forked\n");
-            c_info.client_ptr_file = fopen(c_info.client_file_name, "r");
+            c_info.client_ptr_file = open_file(c_info.client_file_name, "r");
 
             if (c_info.client_ptr_file == NULL) {
-                s_buffer.mtype = c_info.client_pid;
-                strcpy(s_buffer.mtext, ERROR_FILE);
-                s_buffer.mlen = (int) strlen(ERROR_FILE);
-
-                if (send_message(server_qid, &s_buffer) == -1) {
-                    perror("Error: could not send to client");
-                }
-
-                printf("Error: reading file\n");
+                server_send_error_msg_to_client(&s_buffer, &c_info);
                 return 0;
             }
 
@@ -117,6 +106,18 @@ int server_entry() {
 
     pthread_join(thread_exit_watcher, 0);
     return 0;
+}
+
+void server_send_error_msg_to_client(struct message_object *s_buffer, struct client_info *c_info) {
+    s_buffer->mtype = c_info->client_pid;
+    strcpy(s_buffer->mtext, ERROR_FILE);
+    s_buffer->mlen = (int) strlen(ERROR_FILE);
+
+    if (send_message(server_qid, s_buffer) == -1) {
+        perror("Error: could not send to client");
+    }
+
+    printf("Error: reading file\n");
 }
 
 void *exit_handler(void *exit_watcher) {
