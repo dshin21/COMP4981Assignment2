@@ -50,24 +50,24 @@ int server_entry() {
 
         // Fork and serve if it is the child
         if (!fork()) {
-            printf("%s", c_info.client_file_name);
-            printf("forked");
+//            printf("%s", c_info.client_file_name);
+            printf("forked\n");
             c_info.client_ptr_file = fopen(c_info.client_file_name, "r");
 
             if (c_info.client_ptr_file == NULL) {
                 s_buffer.mtype = c_info.client_pid;
-                strcpy(s_buffer.mtext, "Error: Could not open file");
-                s_buffer.mlen = 27;
+                strcpy(s_buffer.mtext, ERROR_FILE);
+                s_buffer.mlen = (int) strlen(ERROR_FILE);
 
                 if (send_message(server_qid, &s_buffer) == -1) {
-                    perror("Problem sending to client");
+                    perror("Error: could not send to client");
                 }
 
-                perror("Could not open file");
+                printf("Error: reading file\n");
                 return 0;
             }
 
-            printf("%d> child started\n", getpid());
+            printf("child started PID: %d\n", getpid());
             s_buffer.mtype = c_info.client_pid;
 
             while (!feof(c_info.client_ptr_file)) {

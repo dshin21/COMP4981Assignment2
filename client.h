@@ -5,6 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include "files.h"
 #include "message_queue.h"
 #include "threads.h"
 

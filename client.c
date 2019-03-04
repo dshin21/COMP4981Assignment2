@@ -30,9 +30,9 @@ int client(const int server_qid, const int client_priority, const char *client_f
         }
 
         // Check if the server returned an error opening the file
-        if (!strcmp(msg_obj.mtext, "Error: Could not open file")) {
+        if (!strcmp(msg_obj.mtext, ERROR_FILE)) {
             // If it did, print the error and return
-            printf("%s\n", msg_obj.mtext);
+            printf("%s\n", "Error: reading file");
             fflush(stdout);
         } else {
             // Otherwise, print the first part of the file
