@@ -1,0 +1,8 @@
+{
+  "files.associations": {
+    "server.h": "c",
+    "client.h": "c",
+    "message_queue.h": "c",
+    "semaphore.h": "c"
+  }
+}

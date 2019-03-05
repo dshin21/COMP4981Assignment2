@@ -8,9 +8,9 @@
 #include "server.h"
 #include "client.h"
 
-#define PRIORITY_SMALL 1
-#define PRIORITY_MEDIUM 2
-#define PRIORITY_LARGE 3
+#define PRIORITY_SMALL 5
+#define PRIORITY_MEDIUM 25
+#define PRIORITY_LARGE 50
 
 void client_entry(char *const *argv);
 

@@ -11,7 +11,8 @@
 #define MSGHEADERSIZE (sizeof(int) + sizeof(long))
 #define MSGSIZE (4096 - MSGHEADERSIZE)
 
-struct message_object {
+struct message_object
+{
     long mtype;
     char mtext[MSGSIZE];
     int mlen;
@@ -21,6 +22,6 @@ int queue_open(key_t keyval);
 
 int send_message(int msg_qid, struct message_object *qbuf);
 
-int read_message(int qid, const long type, struct message_object *qbuf, int read_type);
+int read_message(int msg_qid, const long type, struct message_object *qbuf, int read_type);
 
-int remove_queue(int qid);
+int remove_queue(int msg_qid);
