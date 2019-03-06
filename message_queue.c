@@ -96,7 +96,7 @@ int read_message(const int msg_qid, const long type, struct message_object *qbuf
   if (read_type == NONBLOCKING)
     r_type = IPC_NOWAIT;
   int result;
-  result = (int)msgrcv(qid, qbuf, MSGSIZE, type, r_type);
+  result = (int)msgrcv(msg_qid, qbuf, MSGSIZE, type, r_type);
   qbuf->mlen = result;
   return result;
 }
@@ -120,5 +120,5 @@ int read_message(const int msg_qid, const long type, struct message_object *qbuf
 ----------------------------------------------------------------------------------------------------------------------*/
 int remove_queue(const int msg_qid)
 {
-  return msgctl(qid, IPC_RMID, 0);
+  return msgctl(msg_qid, IPC_RMID, 0);
 }

@@ -4,7 +4,6 @@
 #include <string.h>
 
 #include "message_queue.h"
-#include "files.h"
 #include "server.h"
 #include "client.h"
 

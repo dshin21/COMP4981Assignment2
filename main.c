@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
     }
     else if (strcmp(argv[1], "client") == 0)
     {
-        if (argc != 4)
+        if (argc != 5)
             return cli_guide();
         client_entry(argv);
     }
